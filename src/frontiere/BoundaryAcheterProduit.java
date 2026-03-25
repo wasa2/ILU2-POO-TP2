@@ -1,6 +1,7 @@
 package frontiere;
 
 import controleur.ControlAcheterProduit;
+import personnages.Gaulois;
 
 public class BoundaryAcheterProduit {
 	private ControlAcheterProduit controlAcheterProduit;
@@ -11,5 +12,54 @@ public class BoundaryAcheterProduit {
 
 	public void acheterProduit(String nomAcheteur) {
 		// TODO à completer
+		
+		if (!controlAcheterProduit.isHabitant(nomAcheteur)) {
+			System.out.println(
+					"Je suis désolée "+nomAcheteur+ " mais il faut être un habitant de notre village pour commercer ici.\n");
+		} else {
+			StringBuilder question = new StringBuilder();
+			question.append("1 - je veux acheter un produit.\n");
+			question.append("2 - je veux avoir une vue d'ensemble du marché.\n");
+			question.append("3 - quitter l'application.\n");
+			int choixUtilisateur = -1;
+			do {
+				choixUtilisateur = Clavier.entrerEntier(question.toString());
+				switch (choixUtilisateur) {
+				case 1:
+					StringBuilder questionProduit =  new StringBuilder();
+					questionProduit.append("Quel produit voulez-vous acheter ?\n");
+					String choixProduit = Clavier.entrerChaine(questionProduit.toString());
+					Gaulois[] vendeurs = controlAcheterProduit.getvillage().rechercherVendeursProduit(choixProduit);
+					if(vendeurs==null) {
+						questionProduit.append("Désolé, personne ne vend ce produit au marché.");
+						break;
+					}
+					else {
+						StringBuilder choixCommerçant = new StringBuilder();
+						choixCommerçant.append("Chez quel commerçant voulez-vous acheter des "+choixProduit+" ?\n");
+						for(int i=0; i<vendeurs.length; i++) {
+							choixCommerçant.append(i+" - "+vendeurs[i].getNom());
+						}
+						int choixVendeur = Clavier.entrerEntier(choixCommerçant.toString());
+						StringBuilder chaine =  new StringBuilder();
+						chaine.append(nomAcheteur+" se déplace jusqu'à l'étal du vendeur "+ choixCommerçant);
+						StringBuilder questionQuantiteProd = new StringBuilder();
+						questionQuantiteProd.append("Combien de "+choixProduit+" voulez-vous acheter ?\n");
+						
+						int choixQuantiteProd = Clavier.entrerEntier(questionQuantiteProd.toString());
+						questionQuantiteProd.append(nomAcheteur+" achète "+choixQuantiteProd+ " "+ choixProduit+ " à "+ vendeurs[choixVendeur]);
+					}
+					break;
+
+				case 2:
+					break;
+
+				default:
+					System.out
+							.println("Vous devez choisir le chiffre 1 ou 2 !");
+					break;
+				}
+			} while (choixUtilisateur != 1 && choixUtilisateur != 2);
+		}
 	}
 }
