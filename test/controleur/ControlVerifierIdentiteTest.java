@@ -10,6 +10,7 @@ import personnages.Gaulois;
 import villagegaulois.Village;
 
 class ControlVerifierIdentiteTest {
+	private ControlVerifierIdentite controlVerifierIdentite;
 	private Village village;
 	private Chef chef;
 	
@@ -19,17 +20,16 @@ class ControlVerifierIdentiteTest {
 		village = new Village("Village test", 20, 10);
 		chef = new Chef("Chef test", 7, village);
 		village.setChef(chef);
+		controlVerifierIdentite = new ControlVerifierIdentite(village);
 	}
 
 	@Test
 	void testControlVerifierIdentite() {
-		ControlVerifierIdentite controlVerifierIdentite = new ControlVerifierIdentite(village);
 		assertNotNull(controlVerifierIdentite);
 	}
 
 	@Test
 	void testVerifierIdentite() {
-		ControlVerifierIdentite controlVerifierIdentite = new ControlVerifierIdentite(village);
 		String nomFauxHab = "Faux habitant";
 		assertFalse(controlVerifierIdentite.verifierIdentite(nomFauxHab));
 		
