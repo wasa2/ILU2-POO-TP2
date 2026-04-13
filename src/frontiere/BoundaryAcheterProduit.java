@@ -38,16 +38,31 @@ public class BoundaryAcheterProduit {
 						StringBuilder choixCommerçant = new StringBuilder();
 						choixCommerçant.append("Chez quel commerçant voulez-vous acheter des "+choixProduit+" ?\n");
 						for(int i=0; i<vendeurs.length; i++) {
-							choixCommerçant.append(i+" - "+vendeurs[i].getNom());
+							choixCommerçant.append((i+1)+" - "+vendeurs[i].getNom());
 						}
 						int choixVendeur = Clavier.entrerEntier(choixCommerçant.toString());
 						StringBuilder chaine =  new StringBuilder();
 						chaine.append(nomAcheteur+" se déplace jusqu'à l'étal du vendeur "+ choixCommerçant);
+						
 						StringBuilder questionQuantiteProd = new StringBuilder();
 						questionQuantiteProd.append("Combien de "+choixProduit+" voulez-vous acheter ?\n");
-						
 						int choixQuantiteProd = Clavier.entrerEntier(questionQuantiteProd.toString());
-						questionQuantiteProd.append(nomAcheteur+" achète "+choixQuantiteProd+ " "+ choixProduit+ " à "+ vendeurs[choixVendeur]);
+						
+						String nomVendeurChoisit = vendeurs[choixVendeur-1].getNom(); 
+						int quantiteDispo = controlAcheterProduit.getvillage().rechercherEtal(vendeurs[choixVendeur-1]).getQuantite();
+						if(quantiteDispo == 0) {
+							questionQuantiteProd.append(nomAcheteur+" veut acheter "+choixQuantiteProd+" "+choixProduit+", malheureusement il n’y'en a plus !");
+							
+						}
+						
+						else if(quantiteDispo < choixQuantiteProd) {
+							questionQuantiteProd.append(nomAcheteur+" veut acheter "+choixQuantiteProd+" "+choixProduit+", malheureusement "+nomVendeurChoisit+" n'en a plus que "+quantiteDispo+". "+nomAcheteur+" achète tout le stock de "+nomVendeurChoisit+".");
+							
+						}
+						else {
+							questionQuantiteProd.append(nomAcheteur+" achète "+choixQuantiteProd+ " "+ choixProduit+ " à "+ vendeurs[choixVendeur-1]);
+							
+						}
 					}
 					break;
 

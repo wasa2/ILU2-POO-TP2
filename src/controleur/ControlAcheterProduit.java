@@ -23,5 +23,10 @@ public class ControlAcheterProduit {
 		return village;
 	}
 
-	//TODO a completer
+	public int acheterProduit(String string, int i) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
 }
